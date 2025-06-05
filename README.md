@@ -16,9 +16,8 @@ This project provides an automated script to download, build, and launch a **Spi
 
 ## Instalation
 
-1. Download or clone the repository
-2. Open terminal in the folder
-3. Run the script:
+1. Open terminal
+2. Run the script:
 
 ```bash
 git clone https://github.com/NotGamerPratham/Minecraft-Server-1.20.1-.git
