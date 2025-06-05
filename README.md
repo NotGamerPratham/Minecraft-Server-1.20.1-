@@ -21,6 +21,7 @@ This project provides an automated script to download, build, and launch a **Spi
 3. Run the script:
 
 ```bash
+git clone https://github.com/NotGamerPratham/Minecraft-Server-1.20.1-.git
 chmod +x setup_spigot_1.20.1.sh
 ./setup_spigot_1.20.1.sh
 ```
