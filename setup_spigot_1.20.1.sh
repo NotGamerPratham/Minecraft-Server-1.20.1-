@@ -1,16 +1,30 @@
 #!/bin/bash
 
-echo "[1/5] Downloading BuildTools.jar..."
+echo "[1/6] Downloading BuildTools.jar..."
 curl -o BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
-echo "[2/5] Building Spigot 1.20.1 (this may take a few minutes)..."
+echo "[2/6] Building Spigot 1.20.1 (this may take several minutes)..."
 java -jar BuildTools.jar --rev 1.20.1
 
-echo "[3/5] Renaming output to server.jar..."
-mv spigot-1.20.1.jar server.jar
+echo "[3/6] Searching and renaming spigot jar to server.jar..."
+spigot_jar=$(find . -maxdepth 1 -type f -name "spigot-1.20.1*.jar" | head -n 1)
+if [ -f "$spigot_jar" ]; then
+    mv "$spigot_jar" server.jar
+else
+    echo "Error: Could not find the built Spigot jar."
+    exit 1
+fi
 
-echo "[4/5] Accepting EULA..."
+echo "[4/6] Accepting EULA..."
 echo "eula=true" > eula.txt
 
-echo "[5/5] Starting Spigot Server..."
-java -Xms1G -Xmx2G -jar server.jar nogui
+echo "[5/6] Moving server.jar and creating echo.txt in parent folder..."
+parent_dir="$(dirname "$PWD")"
+cp server.jar "$parent_dir"/server.jar
+echo "Spigot 1.20.1 setup complete!" > "$parent_dir"/echo.txt
+
+echo "[6/6] Cleaning up everything else including this script..."
+cd "$parent_dir"
+rm -rf "$(basename "$PWD")"
+
+echo "Final setup done. Only server.jar and echo.txt remain in: $(pwd)"
